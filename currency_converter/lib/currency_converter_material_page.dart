@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
 
 class MaterialHomePage extends StatefulWidget {
- const  MaterialHomePage({super.key}) ;
-  
+  const MaterialHomePage({super.key});
+
   @override
-  State<MaterialHomePage> createState() => _CurrencyConverterMaterialPageState();
-  
+  State<MaterialHomePage> createState() =>
+      _CurrencyConverterMaterialPageState();
 }
 
-
 class _CurrencyConverterMaterialPageState extends State<MaterialHomePage> {
-double result =0;
+  double result = 0;
 
   final TextEditingController textEditingController = TextEditingController();
+
+  
+    void convert() {
+    result = double.parse(textEditingController.text) * 94.81;
+    setState(() {});
+  }
+  @override
+  void initState() {//called befiore anything builds
+    
+    super.initState();
+  }
+  @override
+  void dispose() {//called after entire widget is discarded
+    textEditingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    
-  
     //this is a function first
-  
+
     final border = OutlineInputBorder(
       borderSide: const BorderSide(
         color: Colors.black,
@@ -37,21 +51,21 @@ double result =0;
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
 
-          children: [
-            Text(
-              "INR ${result.toString()}",
-              style: const TextStyle(
-                fontSize: 45,
-                fontWeight: FontWeight.w900,
-                color: Color.fromARGB(255, 255, 255, 255),
+            children: [
+              Text(
+                "INR ${result != 0 ? result.toStringAsFixed(2) : result.toStringAsFixed(0)}",
+                style: const TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w900,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
+              TextField(
                 controller: textEditingController,
                 style: const TextStyle(
                   color: Colors.black,
@@ -69,16 +83,9 @@ double result =0;
                 ),
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                 
-                  setState(() {
-                     result = double.parse(textEditingController.text) * 94.81;
-                  });
-                },
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: convert,
 
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -91,8 +98,8 @@ double result =0;
 
                 child: const Text("Convert"),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
